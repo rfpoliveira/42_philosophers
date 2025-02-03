@@ -2,13 +2,16 @@
 #                                 Files and Paths                              #
 #==============================================================================#
 
-SRCS = main.c activity.c philo_free.c ini_philos.c threads.c philo_utils.c 
+SRCS = $(addprefix $(SRCS_PATH)/, main.c activity.c philo_free.c ini_philos.c threads.c \
+			 philo_utils.c get_info.c) 
 
 OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
+
 
 NAME = philo 
 
 BUILD_PATH = .build
+SRCS_PATH = ./srcs
 
 #==============================================================================#
 #                                   Alias                                      #
@@ -17,6 +20,8 @@ BUILD_PATH = .build
 RM = rm -rf
 AR = ar rcs
 CFLAGS = -g -Wall -Werror -Wextra
+#LEAKS = -fsanitize=leak
+TH = -fsanitize=thread
 
 #==============================================================================#
 #                                    Rules                                     #
@@ -25,13 +30,13 @@ CFLAGS = -g -Wall -Werror -Wextra
 all: $(BUILD_PATH) $(OBJS) $(NAME)
 
 $(NAME):
-	@cc $(CFLAGS) -o $(NAME) $(OBJS)
+	@cc $(CFLAGS) $(TH) $(OBJS) -o $(NAME)
 	@echo "$(GRN)[philo successfully created]$(D)"
 
 $(BUILD_PATH):
 	@mkdir $(BUILD_PATH)
 	
-$(BUILD_PATH)/%.o: %.c
+$(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c
 	@cc $(CFLAGS) -o $@ -c $<
 
 clean: 
@@ -40,7 +45,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(BCYA)[fclean] Archive removed$(D)"
+	@echo "$(BCYA)[fclean] Executable removed$(D)"
 
 re: fclean all
 
