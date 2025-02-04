@@ -81,7 +81,7 @@ int	alloc_memory(t_table *table, int n_phs)
 int	ini_table(t_table *table, int n_phs)
 {
 	table->n_phs = n_phs;
-	table->DEATH_WARN = ALIVE;
+	table->death_warn = ALIVE;
 	table->full_philos = 0;
 	if (alloc_memory(table, n_phs) != 0)
 		return (printf("Error allocating memory!\n"));

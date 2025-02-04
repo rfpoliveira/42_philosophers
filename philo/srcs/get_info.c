@@ -20,7 +20,7 @@ int	mon_status(t_philo *philo)
 	pthread_mutex_lock(&philo->table->status);
 	if (r_get_time() - get_last_eat_time(philo) > philo->time_die)
 	{
-		philo->table->DEATH_WARN = DEAD;
+		philo->table->death_warn = DEAD;
 		pthread_mutex_unlock(&philo->table->status);
 		return (DEAD);
 	}
@@ -31,8 +31,8 @@ int	mon_status(t_philo *philo)
 		philo->full = 1;
 	}
 	if (philo->table->full_philos == philo->n_phs)
-		philo->table->DEATH_WARN = FULL;
-	i = philo->table->DEATH_WARN;
+		philo->table->death_warn = FULL;
+	i = philo->table->death_warn;
 	pthread_mutex_unlock(&philo->table->status);
 	return (i);
 }
@@ -43,7 +43,7 @@ int	get_status(t_philo *philo)
 
 	i = 0;
 	pthread_mutex_lock(&philo->table->status);
-	i = philo->table->DEATH_WARN;
+	i = philo->table->death_warn;
 	pthread_mutex_unlock(&philo->table->status);
 	return (i);
 }
