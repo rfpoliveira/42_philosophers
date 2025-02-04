@@ -44,6 +44,8 @@ void *routine_mon(void	*table_arg)
 	if (i == table->n_phs)
 		i = 0;
 	}
+	if (get_status(&table->philos[i]) == DEAD)
+		print_msg(&table->philos[i], DIED);
 	return (NULL);
 }
 
@@ -62,7 +64,7 @@ void  *routine_ph(void	*philo_arg)
 	{
 		eat(philo);
 		ph_sleep(philo);
-		print_msg(philo, THINK);
+		ph_think(philo);
 	}
 	return (NULL);
 }

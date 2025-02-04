@@ -3,7 +3,7 @@
 #==============================================================================#
 
 SRCS = $(addprefix $(SRCS_PATH)/, main.c activity.c philo_free.c ini_philos.c threads.c \
-			 philo_utils.c get_info.c) 
+			 philo_utils.c get_info.c time_utils.c) 
 
 OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
 

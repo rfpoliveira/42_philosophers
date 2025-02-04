@@ -56,35 +56,41 @@ int	r_atoi(const char *str)
 	return (res * sig);
 }
 
-
-size_t	r_get_time(void)
-{
-	struct timeval time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
-
-void	r_usleep(size_t sleeptime)
-{
-	size_t starting_time;
-
-	starting_time = 0;
-	starting_time = r_get_time();
-	while((r_get_time() - starting_time) < sleeptime)
-		usleep(500);
-}
-
 void  print_msg(t_philo *philo, char *s)
 {
 	size_t time;
 
 	time = 0;
-	if (philo->table->DEATH_WARN != DEAD)
+	if (get_status(philo) != DEAD)
 	{
 		time = r_get_time() - philo->start_time;
 		pthread_mutex_lock(&philo->table->print);
 		printf("%ld %i %s\n", time, philo->id, s);
 		pthread_mutex_unlock(&philo->table->print);
 	}
+	else if (r_strcmp(s, "died") == 0)
+	{
+		time = r_get_time() - philo->start_time;
+		pthread_mutex_lock(&philo->table->print);
+		printf("%ld %i %s\n", time, philo->id, s);
+		pthread_mutex_unlock(&philo->table->print);
+	}
+}
+
+int	r_strcmp(const char *s1, const char *s2)
+{
+	size_t			i;
+	unsigned char	*temps1;
+	unsigned char	*temps2;
+
+	temps1 = (unsigned char *)s1;
+	temps2 = (unsigned char *)s2;
+	i = 0;
+	while (temps1[i] || temps2[i])
+	{
+		if (temps1[i] != temps2[i])
+			return (temps1[i] - temps2[i]);
+		i++;
+	}
+	return (0);
 }

@@ -18,11 +18,11 @@ int	mon_status(t_philo *philo)
 
 	i = 0;
 	pthread_mutex_lock(&philo->table->status);
-	if (r_get_time() - philo->last_eat_time > philo->time_die)
+	if (r_get_time() - get_last_eat_time(philo) > philo->time_die)
 	{
-		print_msg(philo, DIED);
 		philo->table->DEATH_WARN = DEAD;
-		return (pthread_mutex_unlock(&philo->table->status), DEAD);
+		pthread_mutex_unlock(&philo->table->status);
+		return (DEAD);
 	}
 	else if (philo->meals_eaten == philo->max_meals && \
 	philo->full == 0)

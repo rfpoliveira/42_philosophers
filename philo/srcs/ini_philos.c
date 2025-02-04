@@ -23,14 +23,24 @@ void  ini_forks(t_table *table)
 		pthread_mutex_init(&table->forks[i], NULL);
 	i = 0;
 	philos[0].right_fork = &table->forks[0];
-	if (table->n_phs > 1)
-		philos[0].left_fork = &table->forks[table->n_phs - 1];
-	else
+	if (table->n_phs == 1)
+	{
 		philos[0].left_fork = NULL;
+		return ;
+	}
+	philos[0].left_fork = &table->forks[philos[0].n_phs - 1];
 	while (++i < table->n_phs)
 	{
-		philos[i].right_fork = &table->forks[i];
-		philos[i].left_fork = &table->forks[i - 1];
+		if (philos[i].id % 2 == 0)
+		{
+			philos[i].right_fork = &table->forks[i];
+			philos[i].left_fork = &table->forks[i - 1];
+		}
+		else
+		{
+			philos[i].right_fork = &table->forks[i - 1];
+			philos[i].left_fork = &table->forks[i];
+		}	
 	}
 }
 
@@ -80,6 +90,7 @@ int  ini_table(t_table *table, int n_phs)
 		return (printf("Error allocating memory!\n"));
 	pthread_mutex_init(&table->print, NULL);
 	pthread_mutex_init(&table->status, NULL);
+	pthread_mutex_init(&table->eating, NULL);
 	return (0);
 }
 
