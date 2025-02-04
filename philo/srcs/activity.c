@@ -12,17 +12,12 @@
 
 #include "../incs/philo.h"
 
-void  eat(t_philo *philo)
+void	eat(t_philo *philo)
 {
 	if (get_status(philo) == ALIVE)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		print_msg(philo, FORK);
-		if (philo->n_phs == 1)
-		{
-			r_usleep(philo->time_die);
-			return ;
-		}
 		pthread_mutex_lock(philo->left_fork);
 		print_msg(philo, FORK);
 		set_last_eat_time(philo);
@@ -36,7 +31,7 @@ void  eat(t_philo *philo)
 	return ;
 }
 
-void  ph_sleep(t_philo *philo)
+void	ph_sleep(t_philo *philo)
 {
 	if (get_status(philo) == ALIVE)
 	{
@@ -45,13 +40,10 @@ void  ph_sleep(t_philo *philo)
 	}
 }
 
-void  ph_think(t_philo *philo)
+void	ph_think(t_philo *philo)
 {
 	if (get_status(philo) == ALIVE)
 	{
 		print_msg(philo, THINK);
 	}
 }
-
-
-

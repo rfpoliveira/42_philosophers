@@ -12,10 +12,10 @@
 
 #include "../incs/philo.h"
 
-void  ini_forks(t_table *table)
+void	ini_forks(t_table *table)
 {
-	int	i;
-	t_philo *philos;
+	int		i;
+	t_philo	*philos;
 
 	philos = table->philos;
 	i = -1;
@@ -24,10 +24,7 @@ void  ini_forks(t_table *table)
 	i = 0;
 	philos[0].right_fork = &table->forks[0];
 	if (table->n_phs == 1)
-	{
-		philos[0].left_fork = NULL;
 		return ;
-	}
 	philos[0].left_fork = &table->forks[philos[0].n_phs - 1];
 	while (++i < table->n_phs)
 	{
@@ -40,14 +37,14 @@ void  ini_forks(t_table *table)
 		{
 			philos[i].right_fork = &table->forks[i - 1];
 			philos[i].left_fork = &table->forks[i];
-		}	
+		}
 	}
 }
 
-void  ini_philos(t_table *table, int argc, char **info)
+void	ini_philos(t_table *table, int argc, char **info)
 {
-	int	i;
-	t_philo *philos;
+	int		i;
+	t_philo	*philos;
 
 	i = 0;
 	philos = table->philos;
@@ -81,7 +78,7 @@ int	alloc_memory(t_table *table, int n_phs)
 	return (0);
 }
 
-int  ini_table(t_table *table, int n_phs)
+int	ini_table(t_table *table, int n_phs)
 {
 	table->n_phs = n_phs;
 	table->DEATH_WARN = ALIVE;
@@ -93,4 +90,3 @@ int  ini_table(t_table *table, int n_phs)
 	pthread_mutex_init(&table->eating, NULL);
 	return (0);
 }
-

@@ -19,7 +19,7 @@ int	r_isdigit(char *s)
 	i = 0;
 	if (s[0] == '+')
 		i++;
-	while(s[i])
+	while (s[i])
 	{
 		if (s[i] < 48 || s[i] > 57)
 			return (0);
@@ -27,7 +27,6 @@ int	r_isdigit(char *s)
 	}
 	return (1);
 }
-
 
 int	r_atoi(const char *str)
 {
@@ -56,9 +55,9 @@ int	r_atoi(const char *str)
 	return (res * sig);
 }
 
-void  print_msg(t_philo *philo, char *s)
+void	print_msg(t_philo *philo, char *s)
 {
-	size_t time;
+	size_t	time;
 
 	time = 0;
 	if (get_status(philo) != DEAD)

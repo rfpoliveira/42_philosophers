@@ -12,7 +12,7 @@
 
 #include "../incs/philo.h"
 
-static void r_perror(int	error)
+static void	r_perror(int error)
 {
 	printf("Usage: ./philo <number of philos> ");
 	printf("<time to die(ms)> <time to eat(ms)> <time to sleep(ms)> ");
@@ -33,16 +33,16 @@ static int	parsing(int argc, char **argv)
 {
 	int	i;
 
-	i= argc - 1;
+	i = argc - 1;
 	if (argc > 6 || argc < 5)
 		return (-5);
 	if (r_atoi(argv[1]) > 200)
 		return (-1);
 	if (argc == 6 && r_atoi(argv[5]) < 0)
 		return (-2);
-	while(i > 0)
+	while (i > 0)
 	{
-		if(!r_isdigit(argv[i]))
+		if (!r_isdigit(argv[i]))
 			return (-3);
 		i--;
 	}
@@ -59,8 +59,8 @@ static int	parsing(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_table	table;
-	int	error;
-	int	n_phs;
+	int		error;
+	int		n_phs;
 
 	error = 0;
 	n_phs = 0;
