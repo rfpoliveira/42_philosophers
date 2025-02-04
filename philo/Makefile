@@ -20,7 +20,7 @@ SRCS_PATH = ./srcs
 RM = rm -rf
 AR = ar rcs
 CFLAGS = -g -Wall -Werror -Wextra
-#LEAKS = -fsanitize=leak
+LEAKS = -fsanitize=leak
 TH = -fsanitize=thread
 
 #==============================================================================#

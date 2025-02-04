@@ -25,10 +25,8 @@ void  eat(t_philo *philo)
 		}
 		pthread_mutex_lock(philo->left_fork);
 		print_msg(philo, FORK);
+		set_last_eat_time(philo);
 		print_msg(philo, EAT);
-		pthread_mutex_lock(&philo->table->eating);
-		get_last_eat_time(philo);
-		pthread_mutex_lock(&philo->table->eating);
 		r_usleep(philo->time_eat);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);

@@ -85,6 +85,7 @@ int	r_strcmp(const char *s1, const char *s2);
 size_t r_get_time(void);
 void	r_usleep(size_t sleeptime);
 size_t  get_last_eat_time(t_philo *philo);
+void  set_last_eat_time(t_philo *philo);
 
 //inicialize
 void  ini_philos(t_table * table, int argc, char **info);

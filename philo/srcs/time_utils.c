@@ -30,13 +30,19 @@ void	r_usleep(size_t sleeptime)
 		usleep(500);
 }
 
-size_t  get_last_eat_time(t_philo *philo)
+void  set_last_eat_time(t_philo *philo)
 {
-	size_t i;
+	pthread_mutex_lock(&philo->table->eating);
+	philo->last_eat_time = r_get_time();
+	pthread_mutex_unlock(&philo->table->eating);
+}
+
+size_t get_last_eat_time(t_philo *philo)
+{
+	size_t	i;
 
 	i = 0;
 	pthread_mutex_lock(&philo->table->eating);
-	philo->last_eat_time = r_get_time();
 	i = philo->last_eat_time;
 	pthread_mutex_unlock(&philo->table->eating);
 	return (i);

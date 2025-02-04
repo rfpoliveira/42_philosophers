@@ -55,6 +55,12 @@ void  *routine_ph(void	*philo_arg)
 	t_philo *philo;
 
 	philo = (t_philo *)philo_arg;
+	if (philo->n_phs == 1)
+	{
+		print_msg(philo, FORK);
+		r_usleep(philo->time_die);
+		return (NULL);
+		}
 	if (philo->id % 2 != 0)
 	{
 		print_msg(philo, THINK);
