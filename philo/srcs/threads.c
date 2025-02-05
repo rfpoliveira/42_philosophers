@@ -19,6 +19,7 @@ void	*routine_mon(void	*table_arg)
 
 	i = 0;
 	table = (t_table *)table_arg;
+//	r_usleep(table->philos[0].time_die - 20);
 	while (42)
 	{
 		if (mon_status(&table->philos[i]) != ALIVE)

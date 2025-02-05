@@ -23,12 +23,12 @@ void	eat(t_philo *philo)
 		set_last_eat_time(philo);
 		print_msg(philo, EAT);
 		r_usleep(philo->time_eat);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
 		if (philo->meals_eaten < philo->max_meals)
 			philo->meals_eaten++;
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+		return ;
 	}
-	return ;
 }
 
 void	ph_sleep(t_philo *philo)
@@ -44,6 +44,6 @@ void	ph_think(t_philo *philo)
 {
 	if (get_status(philo) == ALIVE)
 	{
-		print_msg(philo, THINK);
+		print_msg(philo, SLEEP);
 	}
 }

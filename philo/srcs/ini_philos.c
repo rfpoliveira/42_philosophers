@@ -28,7 +28,7 @@ void	ini_forks(t_table *table)
 	philos[0].left_fork = &table->forks[philos[0].n_phs - 1];
 	while (++i < table->n_phs)
 	{
-		if (philos[i].id % 2 == 0)
+		if (philos[i].id % 2 == 0 && table->n_phs != 2)
 		{
 			philos[i].right_fork = &table->forks[i];
 			philos[i].left_fork = &table->forks[i - 1];
