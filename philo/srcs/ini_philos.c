@@ -28,7 +28,7 @@ void	ini_forks(t_table *table)
 	philos[0].left_fork = &table->forks[philos[0].n_phs - 1];
 	while (++i < table->n_phs)
 	{
-		if (philos[i].id % 2 == 0 && table->n_phs != 2)
+		if (i % 2 == 0 && table->n_phs != 2)
 		{
 			philos[i].right_fork = &table->forks[i];
 			philos[i].left_fork = &table->forks[i - 1];
@@ -54,14 +54,14 @@ void	ini_philos(t_table *table, int argc, char **info)
 		philos[i].time_die = r_atoi(info[2]);
 		philos[i].time_eat = r_atoi(info[3]);
 		philos[i].time_sleep = r_atoi(info[4]);
-		philos[i].start_time = r_get_time();
+		philos[i].start_time = 0;
 		philos[i].max_meals = -1;
 		if (argc == 6)
 			philos[i].max_meals = r_atoi(info[5]);
 		philos[i].table = table;
 		philos[i].id = i + 1;
 		philos[i].meals_eaten = 0;
-		philos[i].last_eat_time = philos[i].start_time;
+		philos[i].last_eat_time = 0;
 		philos[i].full = 0;
 		i++;
 	}
@@ -69,9 +69,12 @@ void	ini_philos(t_table *table, int argc, char **info)
 
 int	alloc_memory(t_table *table, int n_phs)
 {
+	table->thread_ph = malloc(sizeof(pthread_t) * n_phs);
+	if (table->thread_ph == NULL)
+		return (ERROR_MALLOC);
 	table->philos = malloc(sizeof(t_philo) * n_phs);
 	if (table->philos == NULL)
-		return (ERROR_MALLOC);
+		return (free(table->thread_ph), ERROR_MALLOC);
 	table->forks = malloc(sizeof(pthread_mutex_t) * n_phs);
 	if (table->forks == NULL)
 		return (free(table->philos), ERROR_MALLOC);

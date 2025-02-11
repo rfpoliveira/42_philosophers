@@ -24,4 +24,5 @@ void	philo_free(t_table *table)
 	pthread_mutex_destroy(&table->eating);
 	free(table->philos);
 	free(table->forks);
+	free(table->thread_ph);
 }

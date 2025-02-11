@@ -120,7 +120,7 @@ int	main(int argc, char **argv)
 		return (ERROR_MALLOC);
 	ini_philos(&table, argc, argv);
 	ini_forks(&table);
-	if (create_threads(&table) != 0)
+	if (create_threads(table.thread_ph, table.philos, table.n_phs) != 0)
 		return (philo_free(&table), printf("Errors creating/joining threads!"));
 	philo_free(&table);
 }

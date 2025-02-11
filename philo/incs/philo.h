@@ -43,7 +43,6 @@
 #============================================================================*/
 typedef struct s_philo
 {
-	pthread_t		thread;
 	int				id;
 	int				meals_eaten;
 	int				full;
@@ -65,6 +64,7 @@ typedef struct s_table
 	int				full_philos;
 	int				death_warn;
 	t_philo			*philos;
+	pthread_t		*thread_ph;
 	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
@@ -93,14 +93,13 @@ int		ini_table(t_table *table, int n_phs);
 void	ini_forks(t_table *table);
 
 //threads
-int		create_threads(t_table *table);
+int	create_threads(pthread_t *thread_ph, t_philo *philos, int n_phs);
 int		get_status(t_philo *philo);
 int		mon_status(t_philo *philo);
 
 //activities
 void	eat(t_philo *philo);
 void	ph_sleep(t_philo *philo);
-void	ph_think(t_philo *philo);
 
 //handle memory
 void	philo_free(t_table *table);

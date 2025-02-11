@@ -14,36 +14,22 @@
 
 void	eat(t_philo *philo)
 {
-	if (get_status(philo) == ALIVE)
-	{
-		pthread_mutex_lock(philo->right_fork);
-		print_msg(philo, FORK);
-		pthread_mutex_lock(philo->left_fork);
-		print_msg(philo, FORK);
-		set_last_eat_time(philo);
-		print_msg(philo, EAT);
-		r_usleep(philo->time_eat);
-		if (philo->meals_eaten < philo->max_meals)
-			philo->meals_eaten++;
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		return ;
-	}
+	pthread_mutex_lock(philo->right_fork);
+	print_msg(philo, FORK);
+	pthread_mutex_lock(philo->left_fork);
+	print_msg(philo, FORK);
+	set_last_eat_time(philo);
+	print_msg(philo, EAT);
+	r_usleep(philo->time_eat);
+	if (philo->meals_eaten < philo->max_meals)
+		philo->meals_eaten++;
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	return ;
 }
 
 void	ph_sleep(t_philo *philo)
 {
-	if (get_status(philo) == ALIVE)
-	{
-		print_msg(philo, SLEEP);
-		r_usleep(philo->time_sleep);
-	}
-}
-
-void	ph_think(t_philo *philo)
-{
-	if (get_status(philo) == ALIVE)
-	{
-		print_msg(philo, SLEEP);
-	}
+	print_msg(philo, SLEEP);
+	r_usleep(philo->time_sleep);
 }
