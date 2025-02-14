@@ -60,7 +60,7 @@ void	print_msg(t_philo *philo, char *s)
 	size_t	time;
 
 	time = 0;
-	if (philo->table->death_warn != DEAD)
+	if (philo->table->death_warn == ALIVE)
 	{
 		pthread_mutex_lock(&philo->table->print);
 		time = r_get_time() - philo->table->start_time;
