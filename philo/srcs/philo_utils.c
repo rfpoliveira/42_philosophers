@@ -60,16 +60,16 @@ void	print_msg(t_philo *philo, char *s)
 	size_t	time;
 
 	time = 0;
-	if (get_status(philo) != DEAD)
+	if (philo->table->death_warn != DEAD)
 	{
-		time = r_get_time() - philo->start_time;
 		pthread_mutex_lock(&philo->table->print);
+		time = r_get_time() - philo->table->start_time;
 		printf("%ld %i %s\n", time, philo->id, s);
 		pthread_mutex_unlock(&philo->table->print);
 	}
 	else if (r_strcmp(s, "died") == 0)
 	{
-		time = r_get_time() - philo->start_time;
+		time = r_get_time() - philo->table->start_time;
 		pthread_mutex_lock(&philo->table->print);
 		printf("%ld %i %s\n", time, philo->id, s);
 		pthread_mutex_unlock(&philo->table->print);

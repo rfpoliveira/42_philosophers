@@ -12,21 +12,43 @@
 
 #include "../incs/philo.h"
 
-void	routine_mon(t_table table)
+int	mon_status(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	if (r_get_time() - philo->last_eat_time > (size_t)philo->table->time_die)
+	{
+		philo->table->death_warn = DEAD;
+		return (DEAD);
+	}
+	else if (philo->meals_eaten == philo->table->max_meals && \
+	philo->full == 0)
+	{
+		philo->table->full_philos++;
+		philo->full = 1;
+	}
+	if (philo->table->full_philos == philo->table->n_phs)
+		philo->table->death_warn = FULL;
+	i = philo->table->death_warn;
+	return (i);
+}
+
+void	routine_mon(t_table *table)
 {
 	int		i;
 
 	i = 0;
 	while (42)
 	{
-		if (mon_status(&table.philos[i]) != ALIVE)
+		if (mon_status(&table->philos[i]) != ALIVE)
 			break ;
 		i++;
-		if (i == table.n_phs)
+		if (i == table->n_phs)
 			i = 0;
 	}
-	if (get_status(&table.philos[i]) == DEAD)
-		print_msg(&table.philos[i], DIED);
+	if (table->death_warn == DEAD)
+		print_msg(&table->philos[i], DIED);
 }
 
 void	*routine_ph(void *philo_arg)
@@ -34,20 +56,21 @@ void	*routine_ph(void *philo_arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_arg;
-	philo->start_time = r_get_time();
-	philo->last_eat_time = philo->start_time;
-	if (philo->n_phs == 1)
+	pthread_mutex_lock(&philo->table->status);
+	pthread_mutex_unlock(&philo->table->status);
+	philo->last_eat_time = philo->table->start_time;
+	if (philo->table->n_phs == 1)
 	{
 		print_msg(philo, FORK);
-		r_usleep(philo->time_die);
+		r_usleep(philo->table->time_die);
 		return (NULL);
 	}
 	if (philo->id % 2 != 0)
 	{
 		print_msg(philo, THINK);
-		r_usleep(philo->time_eat);
+		r_usleep(philo->table->time_eat);
 	}
-	while (get_status(philo) == ALIVE)
+	while (philo->table->death_warn == ALIVE)
 	{
 		eat(philo);
 		ph_sleep(philo);
@@ -56,28 +79,27 @@ void	*routine_ph(void *philo_arg)
 	return (NULL);
 }
 
-int	create_threads(pthread_t *thread_ph, t_philo *philos, int n_phs)
+int	create_threads(t_table *table)
 {
 	int	i;
 
 	i = -1;
-	/*if (pthread_create(&table->monitor, NULL, &routine_mon, table) != 0)
-		return (1);*/
-	while (++i < n_phs)
+	pthread_mutex_lock(&table->status);
+	while (++i < table->n_phs)
 	{
-		if (pthread_create(&thread_ph[i], NULL, &routine_ph, \
-		&philos[i]) != 0)
+		if (pthread_create(&table->thread_ph[i], NULL, &routine_ph, \
+		&table->philos[i]) != 0)
 			return (1);
 	}
-	r_usleep(philos[0].time_eat - 10);
-	routine_mon(*philos[0].table);
+	table->start_time = r_get_time();
+	pthread_mutex_unlock(&table->status);
+	r_usleep(table->time_eat - 10);
+	routine_mon(table);
 	i = -1;
-	while (++i < n_phs)
+	while (++i < table->n_phs)
 	{
-		if (pthread_join(thread_ph[i], NULL) != 0)
+		if (pthread_join(table->thread_ph[i], NULL) != 0)
 			return (1);
 	}
-	/*if (pthread_join(table->monitor, NULL) != 0)
-		return (1);*/
 	return (0);
 }

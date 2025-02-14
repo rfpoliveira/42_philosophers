@@ -105,22 +105,19 @@ int	main(int argc, char **argv)
 {
 	t_table	table;
 	int		error;
-	int		n_phs;
 
 	error = 0;
-	n_phs = 0;
 	error = parsing(argc, argv);
 	if (error != 0)
 	{
 		r_perror(error);
 		return (PARSING_ERROR);
 	}
-	n_phs = r_atoi(argv[1]);
-	if (ini_table(&table, n_phs) != 0)
+	if (ini_table(&table, argv, argc) != 0)
 		return (ERROR_MALLOC);
-	ini_philos(&table, argc, argv);
+	ini_philos(&table);
 	ini_forks(&table);
-	if (create_threads(table.thread_ph, table.philos, table.n_phs) != 0)
+	if (create_threads(&table) != 0)
 		return (philo_free(&table), printf("Errors creating/joining threads!"));
 	philo_free(&table);
 }

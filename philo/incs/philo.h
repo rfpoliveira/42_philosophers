@@ -46,12 +46,6 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	int				full;
-	size_t			time_die;
-	size_t			time_eat;
-	size_t			time_sleep;
-	size_t			start_time;
-	int				n_phs;
-	int				max_meals;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 	size_t			last_eat_time;
@@ -60,16 +54,19 @@ typedef struct s_philo
 
 typedef struct s_table
 {
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				max_meals;
+	size_t			start_time;
 	int				n_phs;
 	int				full_philos;
 	int				death_warn;
 	t_philo			*philos;
 	pthread_t		*thread_ph;
-	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	status;
-	pthread_mutex_t	eating;
 }	t_table;
 
 /*============================================================================#
@@ -84,18 +81,14 @@ int		r_strcmp(const char *s1, const char *s2);
 //time utils
 size_t	r_get_time(void);
 void	r_usleep(size_t sleeptime);
-size_t	get_last_eat_time(t_philo *philo);
-void	set_last_eat_time(t_philo *philo);
 
 //inicialize
-void	ini_philos(t_table *table, int argc, char **info);
-int		ini_table(t_table *table, int n_phs);
+void	ini_philos(t_table *table);
+int		ini_table(t_table *table, char **argv, int argc);
 void	ini_forks(t_table *table);
 
 //threads
-int	create_threads(pthread_t *thread_ph, t_philo *philos, int n_phs);
-int		get_status(t_philo *philo);
-int		mon_status(t_philo *philo);
+int		create_threads(t_table *table);
 
 //activities
 void	eat(t_philo *philo);
