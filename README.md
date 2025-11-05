@@ -5,5 +5,5 @@ These philosophers can be eating, thinking and sleeping. To eat, they need two f
 The program must display the philosophers activities with timestamps and end if someone dies or everyone reaches the optional limit.
 
 
-Usage:
+## Usage:
 Use "Make" in the "philo" diretory, the run it with:     ./philo [n of philos] [time to die] [time to eat] [time to sleep] [n times each philo must eat]
